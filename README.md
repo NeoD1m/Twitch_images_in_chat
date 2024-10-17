@@ -1,8 +1,9 @@
 # Twitch images in chat
 0) ОБЯЗАТЕЛЬНО ДОЛЖНО БЫТЬ УСТАНОВЛЕННО РАСШИРЕНИЕ [7TV](https://chromewebstore.google.com/detail/7tv/ammjkodgmmoknidbanneddgankgfejfh?hl=ru&utm_source=ext_sidebar)
 1) устанавливаете [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
-2) Нажимаете создать новый скрипт
-3) Вставляете код ниже
+2) Включите режим разработчика во вкладке расширений (chrome://extensions/), справа сверху
+3) Нажимаете создать новый скрипт
+4) Вставляете код ниже
 ```js
 // ==UserScript==
 // @name         TwitchImages
