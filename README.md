@@ -1,4 +1,5 @@
-# Boosty_chat_fix
+# Twitch images in chat
+0) ОБЯЗАТЕЛЬНО ДОЛЖЕН БЫТЬ УСТАНОВЛЕННО РАСШИРЕНИЕ [7TV](https://chromewebstore.google.com/detail/7tv/ammjkodgmmoknidbanneddgankgfejfh?hl=ru&utm_source=ext_sidebar)
 1) устанавливаете [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 2) Нажимаете создать новый скрипт
 3) Вставляете код ниже
