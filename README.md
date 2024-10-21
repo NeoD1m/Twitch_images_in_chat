@@ -22,27 +22,27 @@ function loadImageByUrl(url) {
       let timeoutId = setTimeout(() => {
         reject(false);
       }, 500);
-
+  
       img.onload = () => {
         clearTimeout(timeoutId);
         resolve(true);
       };
-
+  
       img.onerror = () => {
         clearTimeout(timeoutId);
         reject(false);
       };
     });
   }
-
+  
   ;(async function() {
       const regex = /https?:\/\/[a-zA-Z0-9\.\/\-\_]+(?:\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.tif|\.tiff|\.webp|\.jfif)/i;
       setInterval(() => {
-          const messagesList = document.querySelectorAll('span[data-a-target="chat-line-message-body"], span.seventv-chat-message-body');
+          const messagesList = document.querySelectorAll('span[data-a-target="chat-line-message-body"], span.seventv-chat-message-body'); 
           for (const messageBody of messagesList) {
               for (const messagePart of messageBody.children) {
                   if (regex.test(messagePart.textContent.trim())) {
-                    loadImageByUrl(messagePart.textContent.trim()).then((isLoad) => isLoad ? messagePart.innerHTML = '<img src="' + messagePart.textContent.trim() + '">' : "");
+                    loadImageByUrl(messagePart.textContent.trim()).then((isLoad) => isLoad ? messagePart.innerHTML = '<img style="max-width:500px;max-height:250px;" src="' + messagePart.textContent.trim() + '">' : "");                  
               }
               }
           }
