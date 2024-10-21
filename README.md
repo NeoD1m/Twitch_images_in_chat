@@ -14,39 +14,38 @@
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
+const initialization = () => {
+    const observer = new MutationObserver((mutations) => {
+        const container = mutations[0].target;
+        const message = mutations[0]?.addedNodes[0]?.querySelector('.seventv-chat-message-body');
+        const link = message?.querySelector('.link-part');
 
-function loadImageByUrl(url) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = url;
-      let timeoutId = setTimeout(() => {
-        reject(false);
-      }, 500);
+        if (link && link.href.match(/\.(png|jpg|jpeg|gif|webp)/ig)) {
+            const img = new Image();
+            img.src = link.href;
+            img.style.height = "auto";
+            img.style.maxHeight = "250px";
+            img.onload = () => {
+                container.scrollTop = (container.scrollHeight + img.height);
+            }
 
-      img.onload = () => {
-        clearTimeout(timeoutId);
-        resolve(true);
-      };
+            const anchor = document.createElement('a');
+            anchor.href = link.href;
+            anchor.target = '_blank';
+            anchor.rel = 'noopener noreferrer';
+            anchor.appendChild(img);
 
-      img.onerror = () => {
-        clearTimeout(timeoutId);
-        reject(false);
-      };
+            message.innerHTML = '';
+            message.appendChild(anchor);
+        }
     });
-  }
 
-  ;(async function() {
-      const regex = /https?:\/\/[a-zA-Z0-9\.\/\-\_]+(?:\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.tif|\.tiff|\.webp|\.jfif)/i;
-      setInterval(() => {
-          const messagesList = document.querySelectorAll('span[data-a-target="chat-line-message-body"], span.seventv-chat-message-body');
-          for (const messageBody of messagesList) {
-              for (const messagePart of messageBody.children) {
-                  if (regex.test(messagePart.textContent.trim())) {
-                    loadImageByUrl(messagePart.textContent.trim()).then((isLoad) => isLoad ? messagePart.innerHTML = '<img src="' + messagePart.textContent.trim() + '">' : "");
-              }
-              }
-          }
-      }, 1000);
-  })()
+    observer.observe(document.querySelector('main.seventv-chat-list'), {
+        subtree: false,
+        childList: true
+    });
+}
+
+setTimeout(initialization, 5000);
 ```
 5) Включаете скрипт и перезапускаете браузер
