@@ -17,36 +17,43 @@
 
 function loadImageByUrl(url) {
     return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = url;
-      let timeoutId = setTimeout(() => {
-        reject(false);
-      }, 500);
+        const img = new Image();
+        img.src = url;
+        let timeoutId = setTimeout(() => {
+            reject(false);
+        }, 500);
 
-      img.onload = () => {
-        clearTimeout(timeoutId);
-        resolve(true);
-      };
+        img.onload = () => {
+            clearTimeout(timeoutId);
+            resolve(true);
+        };
 
-      img.onerror = () => {
-        clearTimeout(timeoutId);
-        reject(false);
-      };
+        img.onerror = () => {
+            clearTimeout(timeoutId);
+            reject(false);
+        };
     });
-  }
+}
 
-  ;(async function() {
-      const regex = /https?:\/\/[a-zA-Z0-9\.\/\-\_]+(?:\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.tif|\.tiff|\.webp|\.jfif)/i;
-      setInterval(() => {
-          const messagesList = document.querySelectorAll('span[data-a-target="chat-line-message-body"], span.seventv-chat-message-body');
-          for (const messageBody of messagesList) {
-              for (const messagePart of messageBody.children) {
-                  if (regex.test(messagePart.textContent.trim())) {
-                    loadImageByUrl(messagePart.textContent.trim()).then((isLoad) => isLoad ? messagePart.innerHTML = '<img src="' + messagePart.textContent.trim() + '">' : "");
-              }
-              }
-          }
-      }, 1000);
-  })()
+;(async function() {
+    const regex = /https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.tif|\.tiff|\.webp|\.jfif)/i;
+
+
+    setInterval(() => {
+        const messagesList = document.querySelectorAll('span[data-a-target="chat-line-message-body"], span.seventv-chat-message-body');
+        for (const messageBody of messagesList) {
+            for (const messagePart of messageBody.children) {
+                const message = messagePart.textContent.trim();
+                if (regex.test(message)) {
+                    loadImageByUrl(message).then((isLoad) => {
+                        if (isLoad) {
+                            messagePart.innerHTML = `<img src="${message}" style="max-height: 250px; height: auto;">`;
+                        }
+                    });
+                }
+            }
+        }
+    }, 1000);
+})();
 ```
 5) Включаете скрипт и перезапускаете браузер
